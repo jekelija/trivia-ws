@@ -1,0 +1,32 @@
+{
+  "name": "trivia-ws-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node dist/index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jekelija/trivia-ws.git"
+  },
+  "homepage": "https://github.com/jekelija/trivia-ws#readme",
+  "author": "Jon Jekeli",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^7.2.1"
+  },
+  "devDependencies": {
+    "@types/ws": "^7.2.1",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
+  }
+}

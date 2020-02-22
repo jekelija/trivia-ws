@@ -1,0 +1,20 @@
+.hidden {
+    display: none;
+}
+
+.flex {
+     display: flex;
+}
+
+.flex.flex-column {
+    flex-flow: column;
+}
+
+.full-screen {
+    position: absolute;
+    overflow: hidden;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+}

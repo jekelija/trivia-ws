@@ -1,0 +1,28 @@
+#grid {
+    justify-content: space-evenly;
+    flex: 1;
+    background: black;
+    color: #FF0;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.column {
+    justify-content: space-evenly;
+    width: 200px;
+    text-align: center;
+}
+
+.square {
+    background: linear-gradient(to bottom right, #0000CC, #000066);
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px
+}
+
+.square.header {
+    font-size: 22px;
+}
