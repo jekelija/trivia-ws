@@ -1,8 +1,12 @@
 import '../css/global';
 import '../css/admin';
-import { URL } from './constants';
+import { URL, GAME_TYPE } from './constants';
+import {findAncestor} from './utils';
+import { AdminGameController } from './adminGameController';
 
 const socket = new WebSocket(URL);
+const gameController = new AdminGameController();
+
 socket.onopen = (event)=> {
     socket.send(JSON.stringify({
         'event' : 'register',
@@ -10,42 +14,37 @@ socket.onopen = (event)=> {
     })); 
     socket.send(JSON.stringify({
         'event' : 'game_request',
-        'data' : 'basketball'
+        'data' : GAME_TYPE
     })); 
 };
 socket.onmessage = event=> {
     const json = JSON.parse(event.data);
     if(json.event == 'game_response') {
         const game = json.data;
-        const parent = document.getElementById('grid');
-        for(let group of game.groups) {
-            const column = document.createElement('div');
-            column.classList.add('column', 'flex', 'flex-column');
-
-            const header = document.createElement('div');
-            header.classList.add('square', 'header');
-            header.innerHTML = group.title;
-            column.appendChild(header);
-
-            for(let q of group.questions) {
-                const square = document.createElement('div');
-                square.classList.add('square');
-
-                const cost = document.createElement('div');
-                cost.classList.add('cost');
-                cost.innerHTML = q.value.toString();
-
-                const question = document.createElement('div');
-                question.classList.add('question', 'hidden');
-                question.innerHTML = q.question;
-
-                square.appendChild(cost);
-                square.appendChild(question);
-                column.appendChild(square);
-            }
-
-            parent.appendChild(column);
-        }
+        gameController.setGame(game);
     }
+    else if(json.event == 'player_joined') {
+        gameController.addPlayer(json.playerName);
+    }
+    else if(json.event == 'player_left') {
+        gameController.removePlayer(json.playerName);
+    }
+    else if(json.event == 'first_answer') {
+        gameController.hideZoom();
+        gameController.playerAnswered(json.data);
+    }
+
+    
 };
 
+document.getElementById('grid').addEventListener('click', e=> {
+    const cost = findAncestor(e.target as HTMLElement, 'cost');
+    if(cost) {
+        const squareInfo = gameController.flipSquare(cost);
+        socket.send(JSON.stringify({
+            'event' : 'question_asked',
+            'data' : squareInfo,
+            'game' : GAME_TYPE
+        })); 
+    }
+});

@@ -1,4 +1,4 @@
-export interface Questions {
+export interface Question {
     value: number;
     question: string;
     picture?: string;
@@ -7,7 +7,7 @@ export interface Questions {
 
 export interface Group {
     title: string;
-    questions: Questions[];
+    questions: Question[];
 }
 
 export interface Game {

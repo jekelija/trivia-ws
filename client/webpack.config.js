@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: {
-        index: './src/index.ts',
+        player: './src/player.ts',
         admin: './src/admin.ts'
     },
     devtool: 'inline-source-map',
@@ -18,8 +18,9 @@ module.exports = {
           chunkFilename: '[id].css'
         }),
         new HtmlWebpackPlugin({
-            template: 'html/index.html',
-            chunks:['index']
+            template: 'html/player.html',
+            filename: "index.html",
+            chunks:['player']
         }),
         new HtmlWebpackPlugin({
             template: 'html/admin.html',
