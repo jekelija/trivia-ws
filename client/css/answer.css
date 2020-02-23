@@ -1,0 +1,12 @@
+#main {
+    padding: 30px;
+    font-size: 24px;
+}
+
+#question-answer {
+    margin-bottom: 30px;
+}
+
+div#player-answer {
+    justify-content: space-evenly;
+}

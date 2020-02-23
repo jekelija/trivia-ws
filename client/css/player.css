@@ -24,3 +24,13 @@
 .answer-button.answer-button-accepted {
     background: rgb(255, 255, 0);
 }
+
+#nameInputDiv {
+    font-size: 44px;
+}
+#nameInput {
+    font-size: 44px;
+}
+#nameInputSubmit {
+    font-size: 44px;
+}

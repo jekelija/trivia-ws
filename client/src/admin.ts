@@ -30,8 +30,11 @@ socket.onmessage = event=> {
         gameController.removePlayer(json.playerName);
     }
     else if(json.event == 'first_answer') {
-        gameController.hideZoom();
         gameController.playerAnswered(json.data);
+    }
+    else if(json.event == 'refresh_scores') {
+        gameController.hideZoom();
+        gameController.refreshScores(json.data);
     }
 
     

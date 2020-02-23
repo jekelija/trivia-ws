@@ -4,4 +4,5 @@ export interface Player {
     socket: WebSocket;
     name: string;
     score: number;
+    canAnswer: boolean;
 }

@@ -25,17 +25,20 @@ socket.onmessage = event=> {
     }
 };
 
+async function registerPlayer():Promise<void> {
+    await onOpenPromise;
+    if(controller.registerPlayer((document.getElementById('nameInput') as HTMLInputElement).value)) {
+        controller.createButton();
+    }
+}
+
 document.addEventListener('keyup', e=> {
     if(e.key.toLowerCase() == 'enter') {
-        if(controller.registerPlayer((document.getElementById('nameInput') as HTMLInputElement).value)) {
-            controller.createButton();
-        }
+        registerPlayer();
     }
 });
 
 document.getElementById('nameInputSubmit').addEventListener('click', e=> {
-    if(controller.registerPlayer((document.getElementById('nameInput') as HTMLInputElement).value)) {
-        controller.createButton();
-    }
+    registerPlayer();
 });
 

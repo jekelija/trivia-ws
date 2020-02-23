@@ -5,7 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         player: './src/player.ts',
-        admin: './src/admin.ts'
+        admin: './src/admin.ts',
+        answer: './src/answer.ts'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -26,6 +27,11 @@ module.exports = {
             template: 'html/admin.html',
             filename: "admin.html",
             chunks:['admin']
+        }),
+        new HtmlWebpackPlugin({
+            template: 'html/answer.html',
+            filename: "answer.html",
+            chunks:['answer']
         })
     ],
     module: {

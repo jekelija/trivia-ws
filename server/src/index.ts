@@ -42,7 +42,8 @@ server.on('connection', function connection(conn) {
                 players.push({
                     socket: conn,
                     score: 0,
-                    name: json.playerName
+                    name: json.playerName,
+                    canAnswer: false
                 });
                 if (admin) {
                     admin.send(JSON.stringify({
@@ -55,6 +56,39 @@ server.on('connection', function connection(conn) {
             else if (json.data === 'answer') {
                 answer = conn;
                 console.log('Answer joined');
+            }
+        }
+        else if (json.event === 'player_correct') {
+            const game = getGame(json.game);
+            const question = game.groups[json.question.groupIndex].questions[json.question.questionIndex];
+            for (const p of players) {
+                if (p.name === json.data) {
+                    p.score += question.value;
+                }
+            }
+            admin.send(JSON.stringify({
+                event: 'refresh_scores',
+                data: players.map((x) => {
+                    return {name: x.name, score: x.score};
+                })
+            }));
+        }
+        else if (json.event === 'player_incorrect') {
+            firstPlayer = null; // reset first player
+            const data = {
+                event: 'allow_answers'
+            };
+            const disallowData = {
+                event: 'disallow_answers'
+            };
+            for (const p of players) {
+                if (p.name === json.data) {
+                    p.canAnswer = false;
+                    p.socket.send(JSON.stringify(disallowData));
+                }
+                else if (p.canAnswer) {
+                    p.socket.send(JSON.stringify(data));
+                }
             }
         }
         else if (json.event === 'game_request') {
@@ -72,8 +106,17 @@ server.on('connection', function connection(conn) {
                 event: 'allow_answers'
             };
             for (const p of players) {
+                p.canAnswer = true;
                 p.socket.send(JSON.stringify(data));
             }
+            const game = getGame(json.game);
+            const question = game.groups[json.data.groupIndex].questions[json.data.questionIndex];
+            answer.send(JSON.stringify({
+                event: 'question_asked',
+                data: question.answer,
+                question: json.data,
+                game: json.game
+            }));
         }
         else if (json.event === 'answer') {
             if (!firstPlayer) {
@@ -95,6 +138,10 @@ server.on('connection', function connection(conn) {
                         }
                     }
                     admin.send(JSON.stringify({
+                        event: 'first_answer',
+                        data: firstPlayer.name
+                    }));
+                    answer.send(JSON.stringify({
                         event: 'first_answer',
                         data: firstPlayer.name
                     }));

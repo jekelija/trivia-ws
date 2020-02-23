@@ -8,7 +8,17 @@ export class AdminGameController {
         const parent = document.getElementById('player-scores');
         const currentPlayers = parent.getElementsByClassName('player-answered');
         while(currentPlayers.length > 0) {
-            currentPlayers[0].remove();
+            currentPlayers[0].classList.remove('player-answered');
+        }
+    }
+
+    refreshScores(players: {name: string, score: number}[]): void {
+        this.removePlayerAnswered();
+        const parent = document.getElementById('player-scores');
+        for(let p of players) {
+            const el = parent.querySelector('[data-name="' + p.name + '"]');
+            const scoreEl = el.getElementsByClassName('player-score-score')[0];
+            scoreEl.innerHTML = p.score.toString();
         }
     }
 
