@@ -60,7 +60,7 @@ server.on('connection', function connection(conn) {
         }
         else if (json.event === 'player_correct') {
             const game = getGame(json.game);
-            const question = game.groups[json.question.groupIndex].questions[json.question.questionIndex];
+            const question = game.round1[json.question.groupIndex].questions[json.question.questionIndex];
             for (const p of players) {
                 if (p.name === json.data) {
                     p.score += question.value;
@@ -110,7 +110,7 @@ server.on('connection', function connection(conn) {
                 p.socket.send(JSON.stringify(data));
             }
             const game = getGame(json.game);
-            const question = game.groups[json.data.groupIndex].questions[json.data.questionIndex];
+            const question = game.round1[json.data.groupIndex].questions[json.data.questionIndex];
             answer.send(JSON.stringify({
                 event: 'question_asked',
                 data: question.answer,

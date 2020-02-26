@@ -56,8 +56,8 @@ export class AdminGameController {
         this.game = game;
 
         const parent = document.getElementById('grid');
-        for(let i=0; i < game.groups.length; ++i) {
-            const group = game.groups[i];
+        for(let i=0; i < game.round1.length; ++i) {
+            const group = game.round1[i];
             const column = document.createElement('div');
             column.classList.add('column', 'flex', 'flex-column');
             column.dataset.index = i.toString();

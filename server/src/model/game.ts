@@ -11,5 +11,7 @@ export interface Group {
 }
 
 export interface Game {
-    groups: Group[];
+    round1: Group[];
+    round2?: Group[];
+    finalJeopardy?: {title: string, question: Question};
 }
