@@ -13,6 +13,7 @@ socket.onopen = (event)=> {
 
 let lastQuestionData:{groupIndex:number, questionIndex:number} = null;
 let lastGameName:string = null;
+let currentRound = 0;
 
 socket.onmessage = event=> {
     const json = JSON.parse(event.data);
@@ -26,6 +27,9 @@ socket.onmessage = event=> {
         document.getElementById('player-answer').classList.remove('hidden');
         document.getElementById('player-answer-name').innerHTML = json.data;
     }
+    else if(json.event == 'game_response') {
+        currentRound = 1;
+    }
 };
 
 document.getElementById('player-answer-correct').addEventListener('click', e=> {
@@ -33,7 +37,8 @@ document.getElementById('player-answer-correct').addEventListener('click', e=> {
         'event' : 'player_correct',
         'data' : document.getElementById('player-answer-name').innerHTML,
         'question' : lastQuestionData,
-        'game' : lastGameName
+        'game' : lastGameName,
+        'round' : currentRound
     })); 
 });
 
@@ -41,5 +46,12 @@ document.getElementById('player-answer-incorrect').addEventListener('click', e=>
     socket.send(JSON.stringify({
         'event' : 'player_incorrect',
         'data' : document.getElementById('player-answer-name').innerHTML
+    }));
+});
+
+document.getElementById('next-round').addEventListener('click', e=> {
+    socket.send(JSON.stringify({
+        'event' : 'next_round',
+        'data' : currentRound+1
     }));
 });

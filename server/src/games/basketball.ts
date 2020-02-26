@@ -228,6 +228,7 @@ export const BasketballGame: Game = {
                 },
                 {
                     value: 600,
+                    // tslint:disable-next-line: max-line-length
                     question: "These 3 Duke players were the first trio of brothers in the NBA since the Barry brothers",
                     answer: "Marshall, Mason, and Miles"
                 },

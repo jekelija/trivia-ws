@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import { BasketballGame } from './games/basketball';
-import { Game } from './model/game';
+import { Game, Group, Question } from './model/game';
 import { Player } from './model/player';
 
 const server = new WebSocket.Server({ port: 8081 });
@@ -18,6 +18,16 @@ function printPlayers(): void {
 function getGame(gameType: string): Game {
     if (gameType === 'basketball') {
         return BasketballGame;
+    }
+    return null;
+}
+
+function getGameRound(game: Game, round: number): Group[] {
+    if (round === 1) {
+        return game.round1;
+    }
+    else if (round === 2) {
+        return game.round2;
     }
     return null;
 }
@@ -60,7 +70,8 @@ server.on('connection', function connection(conn) {
         }
         else if (json.event === 'player_correct') {
             const game = getGame(json.game);
-            const question = game.round1[json.question.groupIndex].questions[json.question.questionIndex];
+            const group = getGameRound(game, json.round)[json.question.groupIndex];
+            const question = group.questions[json.question.questionIndex];
             for (const p of players) {
                 if (p.name === json.data) {
                     p.score += question.value;
@@ -98,6 +109,10 @@ server.on('connection', function connection(conn) {
                     event: 'game_response',
                     data: game
                 }));
+                answer.send(JSON.stringify({
+                    event: 'game_response',
+                    data: game
+                }));
             }
         }
         else if (json.event === 'question_asked') {
@@ -110,7 +125,7 @@ server.on('connection', function connection(conn) {
                 p.socket.send(JSON.stringify(data));
             }
             const game = getGame(json.game);
-            const question = game.round1[json.data.groupIndex].questions[json.data.questionIndex];
+            const question = getGameRound(game, json.round)[json.data.groupIndex].questions[json.data.questionIndex];
             answer.send(JSON.stringify({
                 event: 'question_asked',
                 data: question.answer,
@@ -147,6 +162,12 @@ server.on('connection', function connection(conn) {
                     }));
                 }
             }
+        }
+        else if (json.event === 'next_round') {
+            admin.send(JSON.stringify({
+                event: 'next_round',
+                data: json.data
+            }));
         }
 
     });

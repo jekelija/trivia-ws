@@ -1,8 +1,9 @@
-import { Game } from "./model/game";
-import { findAncestor } from "./utils";
+import { Game, Group } from "./model/game";
+import { findAncestor, emptyDiv } from "./utils";
 
 export class AdminGameController {
     private game:Game;
+    private currentRound = 1;
 
     private removePlayerAnswered(): void {
         const parent = document.getElementById('player-scores');
@@ -55,9 +56,14 @@ export class AdminGameController {
     setGame(game:Game): void {
         this.game = game;
 
+        this.buildBoard(game.round1);
+    }
+
+    private buildBoard(groups: Group[]): void {
         const parent = document.getElementById('grid');
-        for(let i=0; i < game.round1.length; ++i) {
-            const group = game.round1[i];
+        emptyDiv(parent);
+        for(let i=0; i < groups.length; ++i) {
+            const group = groups[i];
             const column = document.createElement('div');
             column.classList.add('column', 'flex', 'flex-column');
             column.dataset.index = i.toString();
@@ -90,11 +96,26 @@ export class AdminGameController {
         }
     }
 
-    hideZoom() {
+    hideZoom():void {
         const zoomClone = document.getElementsByClassName('zoomQuestion');
         if(zoomClone && zoomClone.length > 0) {
             zoomClone[0].remove();
         }
+    }
+
+    getRound(): number {
+        return this.currentRound;
+    }
+
+    setRound(round: number): void {
+        this.currentRound = round;
+        if(round == 1) {
+            this.buildBoard(this.game.round1);
+        }
+        else if(round == 2) {
+            this.buildBoard(this.game.round2);
+        }
+        //TODO final jeopardy
     }
 
     flipSquare(costElement:HTMLElement): {groupIndex:number, questionIndex:number} {

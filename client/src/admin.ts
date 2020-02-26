@@ -36,6 +36,9 @@ socket.onmessage = event=> {
         gameController.hideZoom();
         gameController.refreshScores(json.data);
     }
+    else if(json.event == 'next_round') {
+        gameController.setRound(json.data);
+    }
 
     
 };
@@ -47,7 +50,8 @@ document.getElementById('grid').addEventListener('click', e=> {
         socket.send(JSON.stringify({
             'event' : 'question_asked',
             'data' : squareInfo,
-            'game' : GAME_TYPE
+            'game' : GAME_TYPE,
+            'round' : gameController.getRound()
         })); 
     }
 });
