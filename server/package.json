@@ -18,9 +18,11 @@
   "author": "Jon Jekeli",
   "license": "ISC",
   "dependencies": {
+    "node-static": "^0.7.11",
     "ws": "^7.2.1"
   },
   "devDependencies": {
+    "@types/node-static": "^0.7.3",
     "@types/ws": "^7.2.1",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4"

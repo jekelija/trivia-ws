@@ -1,9 +1,34 @@
 import WebSocket from 'ws';
 import { BasketballGame } from './games/basketball';
-import { Game, Group, Question } from './model/game';
+import { Game, Group } from './model/game';
 import { Player } from './model/player';
 
-const server = new WebSocket.Server({ port: 8081 });
+import http from 'http';
+import Static from 'node-static';
+
+//
+// Create a node-static server instance to serve the './public' folder
+//
+const file = new Static.Server('./public');
+
+const staticServer = http.createServer((request, response) => {
+    request.addListener('end', () => {
+        //
+        // Serve files!
+        //
+        file.serve(request, response);
+    }).resume();
+});
+
+const server = new WebSocket.Server({ noServer: true });
+
+staticServer.on('upgrade', (request, socket, head) => {
+    console.log('upgrade');
+    server.handleUpgrade(request, socket, head, (ws) => {
+        console.log('emit');
+        server.emit('connection', ws, request);
+    });
+});
 
 let admin: WebSocket = null;
 const players: Player[] = [];
@@ -187,3 +212,5 @@ server.on('connection', function connection(conn) {
         }
     });
 });
+
+staticServer.listen(8081);
