@@ -47,6 +47,9 @@ document.getElementById('grid').addEventListener('click', e=> {
     const cost = findAncestor(e.target as HTMLElement, 'cost');
     if(cost) {
         const squareInfo = gameController.flipSquare(cost);
+        if(squareInfo.isDailyDouble) {
+            (document.getElementById('daily-double') as HTMLAudioElement).play();
+        }
         socket.send(JSON.stringify({
             'event' : 'question_asked',
             'data' : squareInfo,

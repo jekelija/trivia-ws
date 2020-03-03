@@ -17,13 +17,32 @@
                 <div id='player-answer-name'></div>
                 <div>
                     <button id="player-answer-correct">Correct</button>
+                    <audio id='player-answer-correct-sound' src="../assets/rightanswer.mp3"></audio>
+                    <audio id='player-answer-incorrect-sound' src="../assets/jeopardy-no.mp3"></audio>
                     <button id="player-answer-incorrect">Incorrect</button>
+                    <button id="play-no-sound">Alex Says No</button>
                 </div>
                 
             </div>
 
             <div id='admin-buttons'>
+
+                <audio id='times-up-sound' src="../assets/times-up.mp3"></audio>
+                <button id="play-times-up">Times Up</button>
+                
+                <input id='round-input' type='number'/>
                 <button id='next-round'>Next Round</button>
+                <div id=set-score-container'>
+                    <div>
+                        <span>Name: </span>
+                        <input id='set-score-name' type="text"/>
+                    </div>
+                    <div>
+                        <span>Amount: </span>
+                        <input id='set-score-amount' type="number"/>
+                    </div>
+                    <button id='set-score'>Add Score</button>
+                </div>
             </div>
         </div>
     </body>

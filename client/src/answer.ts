@@ -13,7 +13,7 @@ socket.onopen = (event)=> {
 
 let lastQuestionData:{groupIndex:number, questionIndex:number} = null;
 let lastGameName:string = null;
-let currentRound = 0;
+let lastRound: number = 1;
 
 socket.onmessage = event=> {
     const json = JSON.parse(event.data);
@@ -27,18 +27,16 @@ socket.onmessage = event=> {
         document.getElementById('player-answer').classList.remove('hidden');
         document.getElementById('player-answer-name').innerHTML = json.data;
     }
-    else if(json.event == 'game_response') {
-        currentRound = 1;
-    }
 };
 
 document.getElementById('player-answer-correct').addEventListener('click', e=> {
+    (document.getElementById('player-answer-correct-sound') as HTMLAudioElement).play();
     socket.send(JSON.stringify({
         'event' : 'player_correct',
         'data' : document.getElementById('player-answer-name').innerHTML,
         'question' : lastQuestionData,
         'game' : lastGameName,
-        'round' : currentRound
+        'round' : lastRound
     })); 
 });
 
@@ -49,9 +47,25 @@ document.getElementById('player-answer-incorrect').addEventListener('click', e=>
     }));
 });
 
+document.getElementById('play-no-sound').addEventListener('click', e=> {
+    (document.getElementById('player-answer-incorrect-sound') as HTMLAudioElement).play();
+});
+document.getElementById('play-times-up').addEventListener('click', e=> {
+    (document.getElementById('times-up-sound') as HTMLAudioElement).play();
+});
+
 document.getElementById('next-round').addEventListener('click', e=> {
+    lastRound = parseInt((document.getElementById('round-input') as HTMLInputElement).value);
     socket.send(JSON.stringify({
         'event' : 'next_round',
-        'data' : currentRound+1
+        'data' : lastRound
+    }));
+});
+
+document.getElementById('set-score').addEventListener('click', e=> {
+    socket.send(JSON.stringify({
+        'event' : 'set_score',
+        'data' : (document.getElementById('set-score-name') as HTMLInputElement).value,
+        'amount' : parseInt((document.getElementById('set-score-amount') as HTMLInputElement).value)
     }));
 });

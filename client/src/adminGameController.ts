@@ -4,6 +4,7 @@ import { findAncestor, emptyDiv } from "./utils";
 export class AdminGameController {
     private game:Game;
     private currentRound = 1;
+    private dailyDoubles:{col:number, row:number}[] = [];
 
     private removePlayerAnswered(): void {
         const parent = document.getElementById('player-scores');
@@ -56,6 +57,12 @@ export class AdminGameController {
     setGame(game:Game): void {
         this.game = game;
 
+        this.dailyDoubles = [];
+        this.dailyDoubles.push({
+            col: Math.floor(Math.random() * game.round1.length),
+            row: Math.floor(Math.random() * game.round1[0].questions.length)
+        });
+
         this.buildBoard(game.round1);
     }
 
@@ -85,7 +92,14 @@ export class AdminGameController {
 
                 const question = document.createElement('div');
                 question.classList.add('question', 'hidden');
-                question.innerHTML = q.question;
+                if(this.dailyDoubles.find(x=> {
+                    return x.col == i && x.row == j;
+                })) {
+                    question.innerHTML = 'DAILY DOUBLE<br/>' + q.question;
+                }
+                else {
+                    question.innerHTML = q.question;
+                }
 
                 square.appendChild(cost);
                 square.appendChild(question);
@@ -110,15 +124,36 @@ export class AdminGameController {
     setRound(round: number): void {
         this.currentRound = round;
         if(round == 1) {
+            this.dailyDoubles = [];
+            this.dailyDoubles.push({
+                col: Math.floor(Math.random() * this.game.round1.length),
+                row: Math.floor(Math.random() * this.game.round1[0].questions.length)
+            });
             this.buildBoard(this.game.round1);
         }
         else if(round == 2) {
+            this.dailyDoubles = [];
+            const firstCol = Math.floor(Math.random() * this.game.round2.length);
+            const firstRow = Math.floor(Math.random() * this.game.round2[0].questions.length);
+            this.dailyDoubles.push({
+                col: firstCol,
+                row: firstRow
+            });
+
+            let secondCol:number, secondRow:number;
+            //do it again, make sure its not the same one
+            do {
+                secondCol = Math.floor(Math.random() * this.game.round2.length);
+                secondRow = Math.floor(Math.random() * this.game.round2[0].questions.length);
+            } while(secondCol==firstCol && secondRow==firstRow);
+            
+
             this.buildBoard(this.game.round2);
         }
         //TODO final jeopardy
     }
 
-    flipSquare(costElement:HTMLElement): {groupIndex:number, questionIndex:number} {
+    flipSquare(costElement:HTMLElement): {groupIndex:number, questionIndex:number, isDailyDouble:boolean} {
         costElement.classList.add('hidden');
         costElement.nextElementSibling.classList.remove('hidden');
         const zoomClone = costElement.parentElement.cloneNode(true) as HTMLDivElement;
@@ -141,7 +176,10 @@ export class AdminGameController {
         const groupIndex = parseInt(findAncestor(costElement, 'column').dataset.index);
         const questionIndex = parseInt(costElement.parentElement.dataset.index);
         return {
-            groupIndex, questionIndex
+            groupIndex, questionIndex,
+            isDailyDouble : this.dailyDoubles.findIndex(x=> {
+                return x.col == groupIndex && x.row == questionIndex;
+            }) != -1
         };
     } 
 }

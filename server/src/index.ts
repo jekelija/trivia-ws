@@ -97,11 +97,14 @@ server.on('connection', function connection(conn) {
             const game = getGame(json.game);
             const group = getGameRound(game, json.round)[json.question.groupIndex];
             const question = group.questions[json.question.questionIndex];
-            for (const p of players) {
-                if (p.name === json.data) {
-                    p.score += question.value;
+            if (!json.question.isDailyDouble) {
+                for (const p of players) {
+                    if (p.name === json.data) {
+                        p.score += question.value;
+                    }
                 }
             }
+
             admin.send(JSON.stringify({
                 event: 'refresh_scores',
                 data: players.map((x) => {
@@ -193,6 +196,19 @@ server.on('connection', function connection(conn) {
                 event: 'next_round',
                 data: json.data
             }));
+        }
+        else if (json.event === 'set_score') {
+            const playerName = json.data;
+            const player = players.find((x) => x.name === playerName);
+            if (player) {
+                player.score += json.amount;
+                admin.send(JSON.stringify({
+                    event: 'refresh_scores',
+                    data: players.map((x) => {
+                        return {name: x.name, score: x.score};
+                    })
+                }));
+            }
         }
 
     });
