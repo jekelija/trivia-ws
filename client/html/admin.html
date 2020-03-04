@@ -5,12 +5,56 @@
     </head>
     <body>
         <div id='main' class='full-screen flex flex-column'>
-            <audio id='daily-double' src="../assets/dailydouble.mp3"></audio>
-            <div id="grid" class="flex">
+            <div>
+                Answer:
+                <div id="question-answer" class="flex">
+                    
+                </div>
+            </div>
+            
+            <div id="player-answer" class="hidden">
+                <div id='player-answer-name'></div>
+                <div id='player-answer-buttons' class="flex">
+                    <button id="player-answer-correct">Correct</button>
+                    <audio id='player-answer-correct-sound' src="../assets/rightanswer.mp3"></audio>
+                    <audio id='player-answer-incorrect-sound' src="../assets/jeopardy-no.mp3"></audio>
+                    <button id="player-answer-incorrect">Incorrect</button>
+                    <button id="play-no-sound">Alex Says No</button>
+                </div>
                 
             </div>
-            <div id="player-scores" class="flex">
+
+            <div id='admin-buttons'>
+
+                <audio id='times-up-sound' src="../assets/times-up.mp3"></audio>
+                <div>
+                    <button id="play-times-up">Times Up</button>
+                </div>
+                <div class="flex" style="margin-top: 20px;">
+                    <select id='round-input'>
+                        <option value="1">Round 1</option>
+                        <option value="2">Round 2</option>
+                        <option value="3">Final Jeopardy</option>
+                    </select>
+                    <button id='next-round'>Go To Round</button>
+                </div>
                 
+                <div id="set-score-container">
+                    <div>
+                        <span>Name: </span>
+                        <input id='set-score-name' type="text"/>
+                    </div>
+                    <div>
+                        <span>Amount: </span>
+                        <input id='set-score-amount' type="number"/>
+                    </div>
+                    <button id='set-score'>Add Score</button>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <button id='reset-buttons'>Reset Buttons</button>
+                    <button id='test-question'>Test Question</button>
+                </div>
             </div>
         </div>
     </body>

@@ -30,9 +30,10 @@ staticServer.on('upgrade', (request, socket, head) => {
     });
 });
 
-let admin: WebSocket = null;
+let board: WebSocket = null;
 const players: Player[] = [];
-let answer: WebSocket = null;
+let admin: WebSocket = null;
+let currentGame: Game = null;
 
 let firstPlayer: Player = null;
 
@@ -57,16 +58,27 @@ function getGameRound(game: Game, round: number): Group[] {
     return null;
 }
 
+function resetButtons(): void {
+    firstPlayer = null; // reset first player
+    const disallowData = {
+        event: 'disallow_answers'
+    };
+    for (const p of players) {
+        p.canAnswer = false;
+        p.socket.send(JSON.stringify(disallowData));
+    }
+}
+
 server.on('connection', function connection(conn) {
     conn.on('message', function incoming(message) {
         console.log('received: %s', message);
         const json = JSON.parse(message as string);
         if (json.event === 'register') {
-            if (json.data === 'admin') {
-                admin = conn;
-                console.log('Admin joined');
+            if (json.data === 'board') {
+                board = conn;
+                console.log('Board joined');
                 for (const p of players) {
-                    admin.send(JSON.stringify({
+                    board.send(JSON.stringify({
                         event: 'player_joined',
                         playerName: p.name
                     }));
@@ -80,20 +92,28 @@ server.on('connection', function connection(conn) {
                     name: json.playerName,
                     canAnswer: false
                 });
-                if (admin) {
-                    admin.send(JSON.stringify({
+                if (board) {
+                    board.send(JSON.stringify({
                         event: 'player_joined',
                         playerName: json.playerName
                     }));
                 }
                 printPlayers();
             }
-            else if (json.data === 'answer') {
-                answer = conn;
-                console.log('Answer joined');
+            else if (json.data === 'admin') {
+                admin = conn;
+                if (currentGame) {
+                    admin.send(JSON.stringify({
+                        event: 'game_response',
+                        data: currentGame
+                    }));
+                }
+                console.log('Admin joined');
             }
         }
         else if (json.event === 'player_correct') {
+            resetButtons();
+
             const game = getGame(json.game);
             const group = getGameRound(game, json.round)[json.question.groupIndex];
             const question = group.questions[json.question.questionIndex];
@@ -105,7 +125,7 @@ server.on('connection', function connection(conn) {
                 }
             }
 
-            admin.send(JSON.stringify({
+            board.send(JSON.stringify({
                 event: 'refresh_scores',
                 data: players.map((x) => {
                     return {name: x.name, score: x.score};
@@ -133,15 +153,31 @@ server.on('connection', function connection(conn) {
         else if (json.event === 'game_request') {
             const game = getGame(json.data);
             if (game) {
+                currentGame = game;
                 conn.send(JSON.stringify({
                     event: 'game_response',
                     data: game
                 }));
-                answer.send(JSON.stringify({
-                    event: 'game_response',
-                    data: game
-                }));
+                if (admin) {
+                    admin.send(JSON.stringify({
+                        event: 'game_response',
+                        data: game
+                    }));
+                }
             }
+        }
+        else if (json.event === 'test_question') {
+            firstPlayer = null;
+            const data = {
+                event: 'allow_answers'
+            };
+            for (const p of players) {
+                p.canAnswer = true;
+                p.socket.send(JSON.stringify(data));
+            }
+        }
+        else if (json.event === 'reset_buttons') {
+            resetButtons();
         }
         else if (json.event === 'question_asked') {
             firstPlayer = null;
@@ -154,7 +190,7 @@ server.on('connection', function connection(conn) {
             }
             const game = getGame(json.game);
             const question = getGameRound(game, json.round)[json.data.groupIndex].questions[json.data.questionIndex];
-            answer.send(JSON.stringify({
+            admin.send(JSON.stringify({
                 event: 'question_asked',
                 data: question.answer,
                 question: json.data,
@@ -180,11 +216,11 @@ server.on('connection', function connection(conn) {
                             }));
                         }
                     }
-                    admin.send(JSON.stringify({
+                    board.send(JSON.stringify({
                         event: 'first_answer',
                         data: firstPlayer.name
                     }));
-                    answer.send(JSON.stringify({
+                    admin.send(JSON.stringify({
                         event: 'first_answer',
                         data: firstPlayer.name
                     }));
@@ -192,17 +228,24 @@ server.on('connection', function connection(conn) {
             }
         }
         else if (json.event === 'next_round') {
-            admin.send(JSON.stringify({
+            resetButtons();
+            board.send(JSON.stringify({
                 event: 'next_round',
                 data: json.data
             }));
+            if (json.data === 3) {
+                admin.send(JSON.stringify({
+                    event: 'question_asked',
+                    data: currentGame.finalJeopardy.question.answer
+                }));
+            }
         }
         else if (json.event === 'set_score') {
             const playerName = json.data;
             const player = players.find((x) => x.name === playerName);
             if (player) {
                 player.score += json.amount;
-                admin.send(JSON.stringify({
+                board.send(JSON.stringify({
                     event: 'refresh_scores',
                     data: players.map((x) => {
                         return {name: x.name, score: x.score};
@@ -219,8 +262,8 @@ server.on('connection', function connection(conn) {
             players.splice(i, 1);
             console.log('Player ' + p.name + ' left');
             printPlayers();
-            if (admin) {
-                admin.send(JSON.stringify({
+            if (board) {
+                board.send(JSON.stringify({
                     event: 'player_left',
                     playerName: p.name
                 }));

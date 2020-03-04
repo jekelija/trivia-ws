@@ -1,7 +1,7 @@
 import { Game, Group } from "./model/game";
 import { findAncestor, emptyDiv } from "./utils";
 
-export class AdminGameController {
+export class BoardGameController {
     private game:Game;
     private currentRound = 1;
     private dailyDoubles:{col:number, row:number}[] = [];
@@ -150,7 +150,21 @@ export class AdminGameController {
 
             this.buildBoard(this.game.round2);
         }
-        //TODO final jeopardy
+        else {
+            this.dailyDoubles = [];
+            const parent = document.getElementById('grid');
+            emptyDiv(parent);
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.classList.add('final-jeopardy');
+    
+    
+            const question = document.createElement('div');
+            question.classList.add('question');
+            question.innerHTML = this.game.finalJeopardy.question.question;    
+            square.appendChild(question);
+            parent.appendChild(square);
+        }
     }
 
     flipSquare(costElement:HTMLElement): {groupIndex:number, questionIndex:number, isDailyDouble:boolean} {

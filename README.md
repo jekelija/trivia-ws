@@ -1,9 +1,5 @@
 # trivia-ws
-final jeopardy
-refactor 'admin' to 'board' and 'answer' to 'admin'
-clean up UI
-
-make it not matter what order stuff starts up in
+final jeopardy category and input?
 
 what if peoples phones go to sleep
 

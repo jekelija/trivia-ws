@@ -6,8 +6,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = {
     entry: {
         player: './src/player.ts',
-        admin: './src/admin.ts',
-        answer: './src/answer.ts'
+        board: './src/board.ts',
+        admin: './src/admin.ts'
     },
     devtool: 'inline-source-map',
     devServer: {
@@ -25,14 +25,14 @@ module.exports = {
             chunks:['player']
         }),
         new HtmlWebpackPlugin({
+            template: 'html/board.html',
+            filename: "board.html",
+            chunks:['board']
+        }),
+        new HtmlWebpackPlugin({
             template: 'html/admin.html',
             filename: "admin.html",
             chunks:['admin']
-        }),
-        new HtmlWebpackPlugin({
-            template: 'html/answer.html',
-            filename: "answer.html",
-            chunks:['answer']
         }),
         new CopyPlugin([
             { from: 'assets', to:'assets' },

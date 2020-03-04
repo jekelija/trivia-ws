@@ -1,0 +1,79 @@
+#main {
+    background: black;
+    color: #FF0;
+    font-weight: bold;
+}
+
+#grid {
+    justify-content: space-evenly;
+    flex: 1;
+}
+
+.square.final-jeopardy {
+    height: 100%;
+    font-size: 80px;
+    text-align: center;
+    padding: 0px 40px;
+}
+
+.column {
+    justify-content: space-evenly;
+    width: 200px;
+    text-align: center;
+}
+
+.square {
+    background: linear-gradient(to bottom right, #0000CC, #000066);
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    position:relative;
+    font-size: 16px;
+}
+
+.square.header {
+    font-size: 22px;
+}
+
+.cost {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    font-size: 32px;
+    line-height: 100px;
+}
+
+.cost:hover {
+    border: 1px solid yellow;
+}
+
+.question {
+    width: 100%;
+}
+
+.square.zoomQuestion {
+    position: absolute;
+    text-align: center;
+    color: #FF0;
+    font-weight: bold;
+    font-size: 80px;
+    transition: all 1s ease;
+}
+
+.square.player-score {
+    color: white;
+    font-size: 25px;
+    justify-content: space-around;
+    max-width: 300px;
+}
+
+.square.player-score.player-answered {
+    border: 4px solid yellow;
+}
+
+#player-scores {
+    justify-content: space-evenly;
+}
