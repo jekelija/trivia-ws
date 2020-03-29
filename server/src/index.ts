@@ -5,6 +5,7 @@ import { Player } from './model/player';
 
 import http from 'http';
 import Static from 'node-static';
+import { TestGame } from './games/test';
 
 //
 // Create a node-static server instance to serve the './public' folder
@@ -44,6 +45,9 @@ function printPlayers(): void {
 function getGame(gameType: string): Game {
     if (gameType === 'basketball') {
         return BasketballGame;
+    }
+    else if (gameType === 'test') {
+        return TestGame;
     }
     return null;
 }
