@@ -1,2 +1,4 @@
-export const URL = "wss://trivia-ws-reh50uf3i.now.sh:8081";
+export const PROTOCOL = "https://";
+export const HOST = "4c1a8f87.ngrok.io/";
+export const URL = "wss://" + HOST;
 export const GAME_TYPE = "basketball";

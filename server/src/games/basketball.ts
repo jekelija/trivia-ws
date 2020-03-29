@@ -16,7 +16,8 @@ export const BasketballGame: Game = {
                 },
                 {
                     value: 300,
-                    question: "What did we announce in front of a green screen, pretending to be on the table of Meet the Parents",
+                    question: "What were we announcing in the following image",
+                    picture: 'basketball/milkandcookies.png',
                     answer: "Milk and Cookies"
                 },
                 {

@@ -1,5 +1,6 @@
 import { Game, Group } from "./model/game";
 import { findAncestor, emptyDiv } from "./utils";
+import { HOST, PROTOCOL } from "./constants";
 
 export class BoardGameController {
     private game:Game;
@@ -92,13 +93,24 @@ export class BoardGameController {
 
                 const question = document.createElement('div');
                 question.classList.add('question', 'hidden');
+
+                const questionText = document.createElement('div');
                 if(this.dailyDoubles.find(x=> {
                     return x.col == i && x.row == j;
                 })) {
-                    question.innerHTML = 'DAILY DOUBLE<br/>' + q.question;
+                    questionText.innerHTML = 'DAILY DOUBLE<br/>' + q.question;
                 }
                 else {
-                    question.innerHTML = q.question;
+                    questionText.innerHTML = q.question;
+                }
+
+                question.appendChild(questionText);
+
+                if(q.picture) {
+                    const img = document.createElement('img');
+                    img.src = PROTOCOL + HOST + q.picture;
+                    img.style.maxWidth = '100%';
+                    question.appendChild(img);
                 }
 
                 square.appendChild(cost);
