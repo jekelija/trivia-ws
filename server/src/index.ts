@@ -49,6 +49,9 @@ function getGame(gameType: string): Game {
     else if (gameType === 'test') {
         return TestGame;
     }
+    else if (gameType === 'housechurch') {
+        return TestGame;
+    }
     return null;
 }
 
