@@ -8,7 +8,6 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node dist/index",
-    "deploy" : "./ngrok http -inspect=false 8081",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
