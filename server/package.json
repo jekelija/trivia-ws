@@ -19,15 +19,11 @@
   "license": "ISC",
   "dependencies": {
     "node-static": "^0.7.11",
-    "ws": "^7.2.1"
-  },
-  "devDependencies": {
+    "tslint": "^5.20.1",
     "@types/node-static": "^0.7.3",
     "@types/ws": "^7.2.1",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.4"
-  },
-  "optionalDependencies": {
+    "typescript": "^3.7.4",
+    "ws": "^7.2.1",
     "bufferutil": "^4.0.1",
     "utf-8-validate": "^5.0.2"
   }

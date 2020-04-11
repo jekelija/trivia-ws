@@ -18,7 +18,7 @@
     "url": "https://github.com/jekelija/trivia-ws/issues"
   },
   "homepage": "https://github.com/jekelija/trivia-ws#readme",
-  "devDependencies": {
+  "dependencies": {
     "@types/webpack-env": "^1.15.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
@@ -33,9 +33,7 @@
     "typescript": "^3.7.4",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^3.10.1",
     "loglevel": "^1.6.6"
   }
 }
