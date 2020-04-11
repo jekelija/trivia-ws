@@ -98,7 +98,18 @@ export class BoardGameController {
                 if(this.dailyDoubles.find(x=> {
                     return x.col == i && x.row == j;
                 })) {
-                    questionText.innerHTML = 'DAILY DOUBLE<br/>' + q.question;
+                    const dd = document.createElement('span');
+                    dd.innerHTML = 'DAILY DOUBLE';
+
+                    const br = document.createElement('br');
+                    
+                    const ddq = document.createElement('span');
+                    ddq.innerHTML = q.question;
+                    ddq.classList.add('hidden');
+                    ddq.classList.add('dailydoublequestion');
+                    questionText.appendChild(dd);
+                    questionText.appendChild(br);
+                    questionText.appendChild(ddq);
                 }
                 else {
                     questionText.innerHTML = q.question;
@@ -158,7 +169,10 @@ export class BoardGameController {
                 secondCol = Math.floor(Math.random() * this.game.round2.length);
                 secondRow = Math.floor(Math.random() * this.game.round2[0].questions.length);
             } while(secondCol==firstCol && secondRow==firstRow);
-            
+            this.dailyDoubles.push({
+                col: secondCol,
+                row: secondRow
+            });
 
             this.buildBoard(this.game.round2);
         }
@@ -180,11 +194,30 @@ export class BoardGameController {
     }
 
     flipSquare(costElement:HTMLElement): {groupIndex:number, questionIndex:number, isDailyDouble:boolean} {
+        const groupIndex = parseInt(findAncestor(costElement, 'column').dataset.index);
+        const questionIndex = parseInt(costElement.parentElement.dataset.index);
+        const isDailyDouble = this.dailyDoubles.findIndex(x=> {
+            return x.col == groupIndex && x.row == questionIndex;
+        }) != -1;
         costElement.classList.add('hidden');
         costElement.nextElementSibling.classList.remove('hidden');
         const zoomClone = costElement.parentElement.cloneNode(true) as HTMLDivElement;
+        //on daily double, first click shows question
+        let click1 = true;
         zoomClone.addEventListener('click', e=> {
-            this.hideZoom();
+            if(isDailyDouble) {
+                if(click1) {
+                    click1 = false;
+                    zoomClone.getElementsByClassName('dailydoublequestion')[0].classList.remove('hidden');
+                }
+                else {
+                    costElement.parentElement.getElementsByClassName('dailydoublequestion')[0].classList.remove('hidden');
+                    this.hideZoom();
+                }
+            }
+            else {
+                this.hideZoom();
+            }
         });
         zoomClone.classList.add('zoomQuestion');
         zoomClone.style.left = costElement.parentElement.offsetLeft + 'px';
@@ -199,13 +232,10 @@ export class BoardGameController {
             zoomClone.style.fontSize = '80px';
             zoomClone.style.height = '100%';
         }, 100);
-        const groupIndex = parseInt(findAncestor(costElement, 'column').dataset.index);
-        const questionIndex = parseInt(costElement.parentElement.dataset.index);
+        
         return {
             groupIndex, questionIndex,
-            isDailyDouble : this.dailyDoubles.findIndex(x=> {
-                return x.col == groupIndex && x.row == questionIndex;
-            }) != -1
+            isDailyDouble :isDailyDouble 
         };
     } 
 }

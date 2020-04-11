@@ -68,6 +68,8 @@
     font-size: 25px;
     justify-content: space-around;
     max-width: 300px;
+    min-width: 100px;
+    width: auto;
 }
 
 .square.player-score.player-answered {
@@ -76,4 +78,5 @@
 
 #player-scores {
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }

@@ -1,4 +1,4 @@
 export const PROTOCOL = "https://";
-export const HOST = "4ed325cc.ngrok.io/";
+export const HOST = "18203451.ngrok.io/";
 export const URL = "wss://" + HOST;
-export const GAME_TYPE = "basketball";
+export const GAME_TYPE = "housechurch";
