@@ -278,7 +278,7 @@ server.on('connection', function connection(conn) {
         if (i !== -1) {
             const p = players[i];
             players.splice(i, 1);
-            console.log('Player ' + p.name + ' left');
+            console.log('Player ' + p.name + ' left with ' + p.score);
             printPlayers();
             if (board) {
                 board.send(JSON.stringify({
