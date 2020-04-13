@@ -279,4 +279,5 @@ server.on('connection', function connection(conn) {
     });
 });
 
-staticServer.listen(8081);
+const port = process.env.PORT || 8081;
+staticServer.listen(port);
