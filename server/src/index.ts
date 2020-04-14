@@ -5,6 +5,7 @@ import { Player } from './model/player';
 
 import http from 'http';
 import Static from 'node-static';
+import { HouseChurchGame } from './games/housechurch';
 import { TestGame } from './games/test';
 
 //
@@ -50,7 +51,7 @@ function getGame(gameType: string): Game {
         return TestGame;
     }
     else if (gameType === 'housechurch') {
-        return TestGame;
+        return HouseChurchGame;
     }
     return null;
 }
@@ -147,10 +148,20 @@ server.on('connection', function connection(conn) {
             const disallowData = {
                 event: 'disallow_answers'
             };
+            const game = getGame(json.game);
+            const group = getGameRound(game, json.round)[json.question.groupIndex];
+            const question = group.questions[json.question.questionIndex];
             for (const p of players) {
                 if (p.name === json.data) {
                     p.canAnswer = false;
                     p.socket.send(JSON.stringify(disallowData));
+                    p.score -= question.value;
+                    board.send(JSON.stringify({
+                        event: 'refresh_scores',
+                        data: players.map((x) => {
+                            return {name: x.name, score: x.score};
+                        })
+                    }));
                 }
                 else if (p.canAnswer) {
                     p.socket.send(JSON.stringify(data));
@@ -267,7 +278,7 @@ server.on('connection', function connection(conn) {
         if (i !== -1) {
             const p = players[i];
             players.splice(i, 1);
-            console.log('Player ' + p.name + ' left');
+            console.log('Player ' + p.name + ' left with ' + p.score);
             printPlayers();
             if (board) {
                 board.send(JSON.stringify({

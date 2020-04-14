@@ -2,6 +2,14 @@ import '../css/global';
 import '../css/admin';
 import { URL } from './constants';
 
+window.addEventListener('beforeunload', (e)=> {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = "Don't leave yet";
+    return "Don't leave yet";
+});
+
 const socket = new WebSocket(URL);
 
 socket.onopen = (event)=> {
@@ -43,7 +51,10 @@ document.getElementById('player-answer-correct').addEventListener('click', e=> {
 document.getElementById('player-answer-incorrect').addEventListener('click', e=> {
     socket.send(JSON.stringify({
         'event' : 'player_incorrect',
-        'data' : document.getElementById('player-answer-name').innerHTML
+        'data' : document.getElementById('player-answer-name').innerHTML,
+        'question' : lastQuestionData,
+        'game' : lastGameName,
+        'round' : lastRound
     }));
 });
 
@@ -52,6 +63,9 @@ document.getElementById('play-no-sound').addEventListener('click', e=> {
 });
 document.getElementById('play-times-up').addEventListener('click', e=> {
     (document.getElementById('times-up-sound') as HTMLAudioElement).play();
+    socket.send(JSON.stringify({
+        'event' : 'reset_buttons'
+    }));
 });
 
 

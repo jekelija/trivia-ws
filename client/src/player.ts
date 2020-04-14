@@ -6,6 +6,14 @@ import { PlayerGameController } from './playerGameController';
 const socket = new WebSocket(URL);
 const controller = new PlayerGameController(socket);
 
+window.addEventListener('beforeunload', (e)=> {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = "Don't leave yet";
+    return "Don't leave yet";
+});
+
 const onOpenPromise = new Promise((resolve, reject)=> {
     socket.onopen = (event)=> {
         resolve();

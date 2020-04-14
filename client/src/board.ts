@@ -7,6 +7,14 @@ import { BoardGameController } from './boardGameController';
 const socket = new WebSocket(URL);
 const gameController = new BoardGameController();
 
+window.addEventListener('beforeunload', (e)=> {
+    // Cancel the event
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = "Don't leave yet";
+    return "Don't leave yet";
+});
+
 socket.onopen = (event)=> {
     socket.send(JSON.stringify({
         'event' : 'register',

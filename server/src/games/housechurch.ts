@@ -163,154 +163,158 @@ export const HouseChurchGame: Game = {
                 },
                 {
                     value: 400,
-                    question: "What restaurants cups did Michael Ramsey's house place all over the floor of our apartment, preventing us from leaving our rooms",
-                    answer: "McDonald's"
+                    question: "In this classic board game, players attempt to gain control of territories such as Yakutsk, Kamchatka, Brazil, and Ukraine",
+                    answer: "Risk"
                 },
                 {
                     value: 600,
-                    question: "What object did Brink grab when Josh threw Mark up against a wall in his sleep",
-                    answer: "Golf club"
+                    question: "Players start this game with a game board depicting things like the Great Pyramids, the Hanging Gardens, and the Colossus of Rhodes",
+                    answer: "7 Wonders"
                 },
                 {
                     value: 800,
+                    question: "This deck building game created by Donald Vaccarino now has 13 expansions",
+                    answer: "Dominion"
+                },
+                {
+                    value: 1000,
                     question: "What is the name of the victim in the board game Clue",
                     answer: "Mr Boddy"
-                },
-                {
-                    value: 1000,
-                    question: "During Cinco de mayo festivities, what did Josh use to hold up the pinata",
-                    answer: "A crutch"
                 }
             ]
         },
         {
-            title: "NCAA Name Game",
+            title: "Are you holy?",
             questions: [
                 {
                     value: 200,
-                    question: "What is the name of Miami University's Redhawk mascot",
-                    answer: "Swoop"
+                    question: "From where does God tell Moses 'I am that I am'",
+                    answer: "The burning bush"
                 },
                 {
                     value: 400,
-                    question: "This university is the only division 1 school with a fruit as its mascot",
-                    answer: "Syracuse University"
+                    question: "This king of Israel was the one to build the first temple in Jerusalem",
+                    answer: "Solomon"
                 },
                 {
                     value: 600,
-                    question: "This state's school of design is located in Providence, and their mascot is 'Scrotie the Nads', a giant walking penis",
-                    answer: "Rhode Island"
+                    question: "Total depravity, unconditional election, limited atonement, irresistible grace, and perseverance of the saints are the five points of this branch of Protestantism",
+                    answer: "Calvinism (or reformed)"
                 },
                 {
                     value: 800,
-                    question: "In 1997, these two universities sharing the nickname 'Wildcats' played each other for the NCAA Basketball Championship",
-                    answer: "Arizona and Kentucky"
+                    question: "This Moabite woman returned to Bethlehem with her mother-in-law, Naomi, and is in the line of Jesus",
+                    answer: "Ruth"
                 },
                 {
                     value: 1000,
-                    question: "The University of California - Santa Cruz's mascot is named after this gastropod, one of the slowest on earth, moving at a maximum speed of six inches per minute",
-                    answer: "Banana Slug"
+                    question: "This prophet is called 'baldy' by a bunch of boys... he curses them and they are mauled by bears",
+                    answer: "Elisha"
                 }
             ]
         },
         {
-            title: "Brotherly Love",
+            title: "Where in the World",
             questions: [
                 {
                     value: 200,
-                    question: "These Spanish brothers have a combined 9 all star games between them",
-                    answer: "Pao and Marc Gasol"
+                    picture: 'housechurch/jamaica.svg',
+                    question: "This country fielded a bobsled team in Cool Runnings",
+                    answer: "Jamaica"
                 },
                 {
                     value: 400,
-                    question: "These two brothers are both in the top 10 of career 3 point percentage",
-                    answer: "Seth and Steph Curry"
+                    picture: 'housechurch/chile.png',
+                    question: "This country contains the world's largest swimming pool",
+                    answer: "Chile"
                 },
                 {
                     value: 600,
-                    // tslint:disable-next-line: max-line-length
-                    question: "These 3 Duke players were the first trio of brothers in the NBA since the Barry brothers",
-                    answer: "Marshall, Mason, and Miles"
+                    picture: 'housechurch/greece.png',
+                    question: "The official name of this country is the Hellenic Republic",
+                    answer: "Greece"
                 },
                 {
                     value: 800,
-                    question: "This brother and sister duo are the only ones to both be in the Basketball Hall of Fame",
-                    answer: "Reggie and Cheryl Miller"
+                    picture: 'housechurch/fiji.png',
+                    question: "This country consists of 322 islands",
+                    answer: "Fiji"
                 },
                 {
                     value: 1000,
-                    question: "In 2014, the Phoenix Suns had two different pairs of brothers on their team; name them",
-                    answer: "Marcus and Markieff Morris, and Zoran and Goran Dragic"
+                    picture: 'housechurch/cameroon.png',
+                    question: "This African nation gained independence from France in 1960",
+                    answer: "Cameroon"
                 }
             ]
         },
         {
-            title: "I Love the 90s",
+            title: "I Love Food",
             questions: [
                 {
                     value: 200,
-                    question: "This shot-blocking center was known for his trademark finger-wag",
-                    answer: "Dikembe Mutumbo"
+                    question: "This cheese based dip originated in Switzerland and is served in a bowl called a caquelon",
+                    answer: "Fondue"
                 },
                 {
                     value: 400,
-                    question: "This 7'6\" center had his powers stolen from him in Space Jam",
-                    answer: "Shawn Bradley"
+                    question: "Haggis is made of the heart, liver, and lungs of this animal",
+                    answer: "Sheep"
                 },
                 {
                     value: 600,
-                    question: "Known as the Round Mound of Rebound, this player was awful at golf",
-                    answer: "Charles Barkley"
+                    question: "This item, typically served with Chinese takeout, was actually invented in a San Francisco bakery",
+                    answer: "Fortune cookie"
                 },
                 {
                     value: 800,
-                    question: "The 1997 number 1 overall draft pick had to give up on his olympic dreams of swimming due to his fear of sharks",
-                    answer: "Tim Duncan"
+                    question: "The world's oldest continuously operating brewery is located in this country",
+                    answer: "Germany"
                 },
                 {
                     value: 1000,
-                    question: "Michael Jordan retired from basketball and spent 1994 playing with this Double-A minor league team",
-                    answer: "Birmingham Barons"
+                    question: "A chuck wagon, used to feed cattlemen on long cattle drives, is often considered to the first of this popular mobile food experience",
+                    answer: "Food truck"
                 }
             ]
         },
         {
-            title: "Because We're Well Rounded",
+            title: "Science Night",
             questions: [
                 {
                     value: 200,
-                    question: "In 1939, Germany invaded this country to start World War II",
-                    answer: "Poland"
+                    question: "This scientist proposes the three laws of motion",
+                    answer: "Isaac Newton"
                 },
                 {
                     value: 400,
-                    question: "This 1994 film featuring Tom Hanks won 45 awards and was the top grossing film of the year",
-                    answer: "Forrest Gump"
+                    question: "This species of animal was the first animal in space in 1957 when the USSR launched her aboard the Sputnik 2",
+                    answer: "Dog"
                 },
                 {
                     value: 600,
-                    question: "This Shakespeare play features the opening line 'To Be or Not To Be'",
-                    answer: "Hamlet"
+                    question: "This is the most common element in air",
+                    answer: "Nitrogen"
                 },
                 {
                     value: 800,
-                    question: "What two countries are separated by the Bering straight",
-                    answer: "USA and Russia"
+                    question: "This invertebrate has 10 hearts, and typically lives underground, although they often come out when it rains",
+                    answer: "Earthworm"
                 },
                 {
                     value: 1000,
-                    question: "What is the sixth element in the periodic table",
-                    answer: "Carbon"
+                    question: "The closest star to earth other than the sun",
+                    answer: "Alpha Centauri A"
                 }
             ]
         }
     ],
     finalJeopardy: {
-        title : 'UNC vs Duke',
+        title : 'T.V. Shows',
         question: {
             value: 0,
-            question: "This year, Duke freshman Wendell Moore scored a buzzer beater as time expired to beat UNC. Who was the last player to hit a game-winning buzzer beater in the Duke/UNC rivalry",
-            answer: "Austin Rivers in 2012"
+            question: "This is the longest running game show in history, and has aired on ABC, CBS, and NBC at different points in its history",
+            answer: "The Price is Right"
         }
     }
 };
