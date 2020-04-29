@@ -5,7 +5,9 @@ import { Player } from './model/player';
 
 import http from 'http';
 import Static from 'node-static';
+import { FriendsGame } from './games/friends';
 import { HouseChurchGame } from './games/housechurch';
+import { OneElevenGame } from './games/oneeleven';
 import { TestGame } from './games/test';
 
 //
@@ -52,6 +54,12 @@ function getGame(gameType: string): Game {
     }
     else if (gameType === 'housechurch') {
         return HouseChurchGame;
+    }
+    else if (gameType === 'oneeleven') {
+        return OneElevenGame;
+    }
+    else if (gameType === 'friends') {
+        return FriendsGame;
     }
     return null;
 }

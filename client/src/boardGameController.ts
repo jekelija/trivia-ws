@@ -120,7 +120,7 @@ export class BoardGameController {
                 if(q.picture) {
                     const img = document.createElement('img');
                     img.src = PROTOCOL + HOST + q.picture;
-                    img.style.maxWidth = '100%';
+                    img.classList.add('questionImage')
                     question.appendChild(img);
                 }
 
